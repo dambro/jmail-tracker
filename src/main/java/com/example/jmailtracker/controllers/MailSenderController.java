@@ -20,12 +20,7 @@ public class MailSenderController {
 
   @PostMapping(value = "/send", consumes = "application/json")
   public @ResponseBody MailSendResponse send(@RequestBody MailSendRequest request) {
-    return mailService.send(
-        request.getTo(),
-        request.getFrom(),
-        request.getSubject(),
-        request.getBody(),
-        request.getAttachment());
+    return mailService.send(request);
   }
 
   @GetMapping(value = "/getStats", produces = "application/json")

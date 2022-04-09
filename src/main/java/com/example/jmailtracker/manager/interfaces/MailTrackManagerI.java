@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 public interface MailTrackManagerI {
 
-  MailMessage track(Timestamp pre,Timestamp post, String attachmentDimension);
+  MailMessage track(Timestamp pre,Timestamp post, Integer attachmentDimension);
   StatsResponse getMailStats();
+  Long calculateImpact(Long gapTs);
 }

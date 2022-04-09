@@ -15,5 +15,7 @@ public class MailSendResponse implements Serializable {
     private String id;
     private String error;
     private int responseCode;
+    private Long attImpact;
+    private Integer attDimension;
     
 }

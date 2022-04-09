@@ -6,5 +6,5 @@ import java.sql.Timestamp;
 
 public interface TrackServiceI {
 
-   MailMessage track(Timestamp pre, Timestamp post, String attachment);
+   MailMessage track(Timestamp pre, Timestamp post, Integer attachment);
 }

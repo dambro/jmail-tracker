@@ -8,28 +8,28 @@ import java.util.Arrays;
 
 @Getter
 public enum AttachmentType {
-    FILE_5 ("5MB.zip", "5MB"),
-    FILE_10 ("10MB.zip", "10MB"),
-    FILE_20 ("20MB.zip", "20MB");
+    FILE_5 ("5MB.zip", 5),
+    FILE_10 ("10MB.zip", 10),
+    FILE_20 ("20MB.zip", 20);
 
-    private AttachmentType (String filename, String dimension){
+    AttachmentType (String filename, Integer dimension){
         this.filename = filename;
         this.dimension = dimension;
     }
 
     private String filename;
-    private String dimension;
+    private Integer dimension;
 
-    public static AttachmentType find(String type){
+    public static AttachmentType find(Integer type){
 
-        if (type == null || type.isEmpty()){
+        if (type == null){
             return null;
         }
 
         return Arrays.stream(AttachmentType.values())
                 .filter(file -> file.getDimension().equals(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(String.format("Unsupported type %s.", type)));
+                .orElseThrow(() -> new IllegalStateException(String.format("Unsupported type: ", type)));
     }
 
     public File getFile() {

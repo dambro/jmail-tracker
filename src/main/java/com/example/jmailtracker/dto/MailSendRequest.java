@@ -12,6 +12,6 @@ public class MailSendRequest implements Serializable {
     private String from;
     private String subject;
     private String body;
-    private String attachment;
+    private Integer attachment;
 
 }

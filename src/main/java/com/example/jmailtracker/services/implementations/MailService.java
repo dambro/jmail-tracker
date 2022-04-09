@@ -1,5 +1,6 @@
 package com.example.jmailtracker.services.implementations;
 
+import com.example.jmailtracker.dto.MailSendRequest;
 import com.example.jmailtracker.dto.MailSendResponse;
 import com.example.jmailtracker.dto.StatsResponse;
 import com.example.jmailtracker.factory.simplemail.NewMail;
@@ -27,10 +28,15 @@ public class MailService implements MailServiceI {
 
   @Autowired private MailTrackManagerI mailTrackManager;
 
-  public MailSendResponse send(String to, String from, String subject, String body, String attachment) {
+  public MailSendResponse send(MailSendRequest request) {
+    String to = request.getTo();
+    String from = request.getFrom();
+    String body = request.getBody();
+    String subject = request.getSubject();
+    Integer attachment = request.getAttachment();
 
-    if(!checkEmails(to, from)){
-      return createResponse(MailSendResponse.UNVALID_EMAILS, null, MailSendResponse.KO);
+    if (!checkEmails(to, from)) {
+      return createResponse(MailSendResponse.UNVALID_EMAILS, null, MailSendResponse.KO, null, null);
     }
 
     Timestamp pre = new Timestamp(System.currentTimeMillis());
@@ -39,7 +45,7 @@ public class MailService implements MailServiceI {
 
     MailMessage msg = trackService.track(pre, post, attachment);
 
-    return createResponse(null, msg.getId().toString(), MailSendResponse.OK);
+    return createResponse(null, msg.getId().toString(), MailSendResponse.OK, attachment, mailTrackManager.calculateImpact(msg.getGapTs()));
   }
 
   public StatsResponse stats() {
@@ -50,7 +56,14 @@ public class MailService implements MailServiceI {
     return emailValidator.validate(to) && emailValidator.validate(from);
   }
 
-  private MailSendResponse createResponse(String error , String id, int responseCode){
-    return MailSendResponse.builder().error(error).id(id).responseCode(responseCode).build();
+  private MailSendResponse createResponse(
+      String error, String id, int responseCode, Integer attDimension, Long impact) {
+    return MailSendResponse.builder()
+        .error(error)
+        .id(id)
+        .responseCode(responseCode)
+        .attDimension(attDimension)
+        .attImpact(impact)
+        .build();
   }
 }

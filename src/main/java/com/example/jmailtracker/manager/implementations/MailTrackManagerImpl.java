@@ -20,10 +20,9 @@ public class MailTrackManagerImpl implements MailTrackManagerI {
     this.mailTrackRepository = mailTrackRepository;
   }
 
-  public MailMessage track(Timestamp pre, Timestamp post, String attachmentDimension) {
+  public MailMessage track(Timestamp pre, Timestamp post, Integer attachmentDimension) {
     long diffSeconds = (post.getTime() / 1000) - (pre.getTime() / 1000);
-    MailMessage email =
-        new MailMessage(UUID.randomUUID(), pre, post, diffSeconds, attachmentDimension);
+    MailMessage email = new MailMessage(UUID.randomUUID(), pre, post, diffSeconds, convertAttachment(attachmentDimension));
     return mailTrackRepository.save(email);
   }
 
@@ -33,5 +32,19 @@ public class MailTrackManagerImpl implements MailTrackManagerI {
         .max(mailTrackRepository.getMax())
         .min(mailTrackRepository.getMin())
         .build();
+  }
+
+  public Long calculateImpact(Long gapTs){
+    Long avgNoAtt = mailTrackRepository.getAverageNoAttachment();
+
+    if (gapTs != null && gapTs > 0 && avgNoAtt != null && avgNoAtt > 0){
+      return gapTs - avgNoAtt;
+    }
+
+    return null;
+  }
+
+  private Integer convertAttachment(Integer attachment){
+    return attachment == null ? 0 : attachment * 1000;
   }
 }

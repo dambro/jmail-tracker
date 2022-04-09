@@ -29,5 +29,5 @@ public class MailMessage {
   private Timestamp sendTs;
   private Timestamp receiveTs;
   private long gapTs;
-  private String attachmentDimension;
+  private Integer attachmentDimension;
 }

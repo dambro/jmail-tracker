@@ -13,7 +13,7 @@ public class TrackService implements TrackServiceI {
 
     @Autowired private MailTrackManagerI mailTrackManager;
 
-    public MailMessage track(Timestamp pre, Timestamp post, String attachment){
+    public MailMessage track(Timestamp pre, Timestamp post, Integer attachment){
        return mailTrackManager.track(pre, post, attachment);
     }
 

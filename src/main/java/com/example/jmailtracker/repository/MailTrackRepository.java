@@ -18,4 +18,7 @@ public interface MailTrackRepository extends JpaRepository<MailMessage, UUID> {
     @Query("SELECT MIN(gapTs) FROM MailMessage")
     Long getMin();
 
+    @Query(value = "SELECT AVG(gapTs) FROM MailMessage WHERE attachmentDimension = 0 ")
+    Long getAverageNoAttachment();
+
 }

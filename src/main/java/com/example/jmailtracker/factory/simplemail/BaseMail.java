@@ -16,7 +16,7 @@ public class BaseMail implements NewMail {
 
   @Override
   public MimeMessage create(
-      String to, String from, String body, String subject, String attachment) {
+      String to, String from, String body, String subject, Integer attachment) {
 
     MimeMessage message = mailSender.createMimeMessage();
 
@@ -35,7 +35,7 @@ public class BaseMail implements NewMail {
     return message;
   }
 
-  private MimeMessageHelper handleAttachment(MimeMessageHelper mmHelper, String attachment) {
+  private MimeMessageHelper handleAttachment(MimeMessageHelper mmHelper, Integer attachment) {
     try {
       AttachmentType type = AttachmentType.find(attachment);
       if (type != null) {
