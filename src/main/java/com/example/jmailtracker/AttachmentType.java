@@ -20,7 +20,7 @@ public enum AttachmentType {
     private String filename;
     private Integer dimension;
 
-    public static AttachmentType find(Integer type){
+    public static AttachmentType find(Integer type) throws IllegalArgumentException{
 
         if (type == null){
             return null;
@@ -29,7 +29,7 @@ public enum AttachmentType {
         return Arrays.stream(AttachmentType.values())
                 .filter(file -> file.getDimension().equals(type))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(String.format("Unsupported type: ", type)));
+                .orElse(null);
     }
 
     public File getFile() {

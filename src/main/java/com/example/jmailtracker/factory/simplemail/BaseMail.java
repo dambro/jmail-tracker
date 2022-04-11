@@ -40,6 +40,9 @@ public class BaseMail implements NewMail {
       AttachmentType type = AttachmentType.find(attachment);
       if (type != null) {
         mmHelper.addAttachment("FileTest", type.getFile());
+      } else if (attachment != null){
+          System.out.println("UNHANDLED ATTACHMENT TYPE --> " + attachment.toString());
+          return null;
       }
     } catch (MessagingException e) {
       System.out.println(e);
